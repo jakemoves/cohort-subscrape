@@ -1,0 +1,22 @@
+{
+  "name": "cohort-subscrape",
+  "version": "0.1.0",
+  "description": "Display & style subtitles",
+  "main": "index.js",
+  "author": "Jacob Niedzwiecki",
+  "license": "MIT",
+  "dependencies": {
+    "jest-environment-webdriver": "^0.2.0",
+    "selenium-webdriver": "^4.0.0-alpha.7",
+    "sirv-cli": "^1.0.6"
+  },
+  "devDependencies": {
+    "jest": "^26.4.2"
+  },
+  "jest": {
+    "testEnvironment": "jest-environment-webdriver",
+    "testEnvironmentOptions": {
+      "browser": "chrome"
+    }
+  }
+}
