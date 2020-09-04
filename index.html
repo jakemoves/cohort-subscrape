@@ -3,7 +3,42 @@
   Subscrape
 </title>
 <body>
-  <video id="test_video" src="sample-video.mp4">
+  <audio id="test_media" src="sample-audio.mp3" controls>
     <track default kind="captions" srclang="en" src="sample-video-captions.vtt"/>
-  </video>
+  </audio>
+  <p id="caption_display">Test</p>
+
+  <script>
+    var sampleTextTrack
+
+    document.addEventListener('DOMContentLoaded', function(event) {
+      sampleTextTrack = document.getElementById('test_media').textTracks[0]
+      requestAnimationFrame(scrapeCaptions) 
+      // fires roughly 60 times per second, less if you're using React :P
+      // generally not a huge performance hit but pay attention to what you do *after* obtaining the caption text; ideally you only want to update content in the DOM when the caption text has changed
+    })
+
+    const scrapeCaptions = function(){
+      if(sampleTextTrack === undefined){
+        requestAnimationFrame(scrapeCaptions) // like calling 'return' for early exit
+      }
+
+      console.log(sampleTextTrack.mode) 
+      // - if mode is 'disabled', nothing's gonna work
+      // - using 'default' in the <track> element usually forces this mode to 'showing' 
+      // - for details, see https://developer.mozilla.org/en-US/docs/Web/API/TextTrack/mode
+
+      const activeCues = sampleTextTrack.activeCues
+      // this is an array, since there can be overlapping captions in a VTT file
+
+      if(activeCues !== undefined && activeCues != null && activeCues.length > 0){
+        console.log(activeCues)
+        document.getElementById('caption_display').innerHTML = activeCues[0].text
+      }
+
+      requestAnimationFrame(scrapeCaptions)
+    }
+
+    
+  </script>
 </body>
